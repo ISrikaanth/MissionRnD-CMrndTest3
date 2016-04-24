@@ -57,13 +57,17 @@ struct enode{
 	struct enode *left;
 	struct enode *right;
 };
-
+int j = 0;
+void inorder(struct enode *root, char *arr);
 /*
 Helper Functions are optional to write 
 */
 //Helper Functions Start
-int isOperator(char *data){
-	return 0;
+int isOperator(char *data)
+{
+	int k = 0;
+	if (data[k] == '-' || data[k] == '+' || data[k] == '*')
+	   return 1;
 }
 int isOperand(char *data){
 	return 0;
@@ -72,8 +76,53 @@ int getOperand(char *data){
 	//converts data string to an integer "123" => 123
 	return 0;
 }
+int operation(int a, char op,int b)
+{
+	if (op == '+')
+		return a + b;
+	else if (op == '-')
+		return a - b;
+	else if (op == '*')
+		return a*b;
+}
 //Helper Functions end
-int solve_tree(struct enode *root){
-    return -1;
+int solve_tree(struct enode *root)
+{
+	if (root == NULL)
+		return -1;
+	int i = 0,k,result;
+	char *arr;
+	arr = (char *)malloc(1000 * sizeof(char));
+	for (i = 0; i < 1000; i++)
+		arr[i] = 0 + '0';
+	inorder(root, arr);
+	arr[j] = '\0';
+	i = 1;
+	while (j>1)
+	{
+	    result =operation(arr[i - 1]-'0',arr[i], arr[i + 1]-'0');
+		for (k = i + 2; k < j; k++)
+			arr[k - 2] = arr[k];
+		j -= 2;
+	}
+	j = 0;
+	return result;
+}
+void inorder(struct enode *root, char *arr)
+{
+	int k = 0;
+	if (root != NULL)
+	{
+		inorder(root->left, arr);
+		if (isOperator(root->data)==1)
+			arr[j] = root->data[k];
+		else
+		{
+			for (k = 0; root->data[k] != '\0'; k++)
+				arr[j] = ((arr[j]-'0') * 10) + (root->data[k] - '0')+'0';
+		}
+		j += 1;
+		inorder(root->right, arr);
+	}
 }
 

@@ -71,6 +71,7 @@ struct node{
 	struct node *right;
 };
 
-int is_identical(struct node_dll *head, struct node *root){
+int is_identical(struct node_dll *head, struct node *root )
+{
 	return -1;
 }

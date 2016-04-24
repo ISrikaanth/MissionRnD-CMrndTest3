@@ -49,8 +49,44 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
-
-int get_missing_value(struct node *root,int n){
-    return -1;
+int c = 0;
+void search_value(struct node *root, int n);
+int get_missing_value(struct node *root,int n)
+{
+	if (root == NULL)
+		return -1;
+	int i = 0,r=0;
+	if (n < 0)
+	{
+		for (i = n; i <= 0; i++)
+		{
+			search_value(root, i);
+			if (c == 0)
+				return i;
+			r = 0;
+			c = 0;
+		}
+	}
+	else if (n > 0)
+	{
+		for (i = 0; i <= n; i++)
+		{
+			search_value(root, i);
+			if (c == 0)
+				return i;
+			r = 0;
+			c = 0;
+		}
+	}
+	c = 0;
+}
+void search_value(struct node *root, int i)
+{
+	if (root != NULL)
+	{
+		search_value(root->left,i);
+		if (root->data == i)
+			c = 1;
+		search_value(root->right, i);
+	}
 }
